@@ -7,6 +7,8 @@ __pycache__/
 *.sqlite3
 *.db
 *.env
+opensky-api/
+
 
 .vscode/
 .idea/
