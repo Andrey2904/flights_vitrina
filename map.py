@@ -4,6 +4,10 @@ from opensky_api import OpenSkyApi
 from datetime import datetime
 import folium
 import hashlib
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def get_color_from_icao(icao24):
     hash_val = hashlib.md5(icao24.encode()).hexdigest()
@@ -18,11 +22,11 @@ country = sys.argv[1]
 
 
 conn = psycopg2.connect(
-    dbname="opensky",
-    user="postgres",
-    password="Mto53609",  
-    host="localhost",
-    port="5432"
+    dbname=os.getenv("DB_NAME", "opensky"),
+    user=os.getenv("DB_USER", "postgres"),
+    password=os.getenv("DB_PASSWORD", "postgres"),
+    host=os.getenv("DB_HOST", "localhost"),
+    port=os.getenv("DB_PORT", "5432")
 )
 cursor = conn.cursor()
 

@@ -2,8 +2,13 @@ from opensky_api import OpenSkyApi
 from datetime import datetime
 import psycopg2
 from psycopg2.extras import execute_values
+from dotenv import load_dotenv
+import os
 
-# Прямоугольник над Чёрным морем
+
+
+load_dotenv()
+
 bbox = (41.0, 47.5, 27.0, 41.5)
 
 # Получаем данные
@@ -22,11 +27,11 @@ for s in states.states:
 
 # Подключение к БД
 conn = psycopg2.connect(
-    dbname="opensky",
-    user="postgres",
-    password="Mto53609",
-    host="localhost",
-    port="5432"
+    dbname=os.getenv("DB_NAME", "opensky"),
+    user=os.getenv("DB_USER", "postgres"),
+    password=os.getenv("DB_PASSWORD", "postgres"),
+    host=os.getenv("DB_HOST", "localhost"),
+    port=os.getenv("DB_PORT", "5432")
 )
 cursor = conn.cursor()
 

@@ -1,7 +1,10 @@
 import sys
 import psycopg2
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 # Проверка аргумента
 if len(sys.argv) < 2 or sys.argv[1] not in ('hour', 'day'):
     print("⚠️ Укажи параметр при запуске: 'hour' или 'day'")
@@ -29,11 +32,11 @@ queries = {
 }
 
 conn = psycopg2.connect(
-    dbname="opensky",
-    user="postgres",
-    password="Mto53609",
-    host="localhost",  
-    port="5432"
+    dbname=os.getenv("DB_NAME", "opensky"),
+    user=os.getenv("DB_USER", "postgres"),
+    password=os.getenv("DB_PASSWORD", "postgres"),
+    host=os.getenv("DB_HOST", "localhost"),
+    port=os.getenv("DB_PORT", "5432")
 )
 
 
