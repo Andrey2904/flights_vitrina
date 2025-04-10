@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: opensky_db
+    restart: always
+    environment:
+      POSTGRES_DB: opensky
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Mto53609
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: opensky_app
+    depends_on:
+      - db
+    environment:
+      DB_NAME: opensky
+      DB_USER: postgres
+      DB_PASSWORD: Mto53609
+      DB_HOST: db
+      DB_PORT: 5432
+    volumes:
+      - ./maps:/app/maps  # подключаем папку с картами
+    stdin_open: true
+    tty: true
+    ports:
+      - "8501:8501"  # доступ к Streamlit
+
+volumes:
+  pg_data:

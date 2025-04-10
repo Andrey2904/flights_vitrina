@@ -11,7 +11,7 @@ load_dotenv()
 
 bbox = (41.0, 47.5, 27.0, 41.5)
 
-# Получаем данные
+
 api = OpenSkyApi()
 states = api.get_states(bbox=bbox)
 date = datetime.now()
@@ -25,7 +25,7 @@ for s in states.states:
         icao24, callsign, origin_country, date
     ))
 
-# Подключение к БД
+
 conn = psycopg2.connect(
     dbname=os.getenv("DB_NAME", "opensky"),
     user=os.getenv("DB_USER", "postgres"),
@@ -35,7 +35,7 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
-# Создание таблицы, если нет
+
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS flights (
     icao24 TEXT,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS flights (
 )
 """)
 
-# Вставка данных
+
 execute_values(cursor, """
     INSERT INTO flights (
         icao24, callsign, country, timestamp

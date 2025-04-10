@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-# Проверка аргумента
+
 if len(sys.argv) < 2 or sys.argv[1] not in ('hour', 'day'):
     print("⚠️ Укажи параметр при запуске: 'hour' или 'day'")
     print("Пример: python vitrina.py 'hour'")
@@ -13,7 +13,6 @@ if len(sys.argv) < 2 or sys.argv[1] not in ('hour', 'day'):
 
 period = sys.argv[1]
 
-# SQL-запросы
 queries = {
     "hour": """
         SELECT country, COUNT(*) AS flight_count
@@ -30,6 +29,9 @@ queries = {
         ORDER BY flight_count DESC;
     """
 }
+
+print("Подключаюсь к БД:")
+print(f"{os.getenv('DB_USER')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}")
 
 conn = psycopg2.connect(
     dbname=os.getenv("DB_NAME", "opensky"),
